@@ -4,6 +4,7 @@ package raw;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
+
 /**
  * Test method that checks if x,y coordinate is in the corner.
  * @author Robert Ward
@@ -47,5 +48,7 @@ public class TestRobotUtilAvoidNearWall {
     assertEquals("Test 590 ",560,robotUtil.avoidNearWall(590, fieldHeight, bufferFromWall), 0.01 );
    
   }
+  
+
 
 }

@@ -1,9 +1,9 @@
 package raw;
 
 import static org.junit.Assert.assertTrue;
-
 import robocode.BattleResults;
 import robocode.control.events.BattleCompletedEvent;
+import robocode.control.events.BattleMessageEvent;
 import robocode.control.testing.RobotTestBed;
 /**
  * Base class for testing robots to see if they can beat other robots.
@@ -12,7 +12,20 @@ import robocode.control.testing.RobotTestBed;
  *
  */
 public class TestBattleOutcomes extends RobotTestBed {
-       
+  
+  
+  /**
+   * Keep track of the number of messages. Print them if desired.
+   *
+   * @param event The BattleMessageEvent.
+   */
+  @Override
+  public void onBattleMessage(BattleMessageEvent event) {
+    //override the printout of each round
+  }
+
+  
+  
   /**
    * Specifies the robots that are to be matched up in this test case.
    * @return The comma-delimited list of robots in this match.

@@ -1,6 +1,7 @@
 package raw; 
 import static org.junit.Assert.assertTrue;
 import robocode.control.events.BattleCompletedEvent;
+import robocode.control.events.BattleMessageEvent;
 import robocode.control.events.TurnEndedEvent;
 import robocode.control.snapshot.IRobotSnapshot;
 import robocode.control.testing.RobotTestBed;
@@ -74,7 +75,15 @@ public class TestZeroDoesNotHitWall extends RobotTestBed {
       
 
   }
-
+  /**
+   * Keep track of the number of messages. Print them if desired.
+   *
+   * @param event The BattleMessageEvent.
+   */
+  @Override
+  public void onBattleMessage(BattleMessageEvent event) {
+    //override the printout of each round
+  }
   /**
    * After the battle, check to see that we've hit a wall.
    *

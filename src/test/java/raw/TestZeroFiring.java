@@ -5,6 +5,7 @@ package raw;
 import static org.junit.Assert.assertTrue;
 import robocode.Rules;
 import robocode.control.events.BattleCompletedEvent;
+import robocode.control.events.BattleMessageEvent;
 import robocode.control.events.TurnEndedEvent;
 import robocode.control.snapshot.IBulletSnapshot;
 import robocode.control.testing.RobotTestBed;
@@ -78,7 +79,15 @@ public class TestZeroFiring extends RobotTestBed {
      
     }
   }
-  
+  /**
+   * Keep track of the number of messages. Print them if desired.
+   *
+   * @param event The BattleMessageEvent.
+   */
+  @Override
+  public void onBattleMessage(BattleMessageEvent event) {
+    //override the printout of each round
+  }
   /**
    * After running all matches, determine if DaCruzer has had variability in its bullet power.
    * 
