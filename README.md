@@ -17,7 +17,7 @@ Start by following the [directions on installing Maven](http://maven.apache.org/
 
 Be sure to run mvn --version to verify that it is correctly installed.  This package has been tested using Maven 3.0.4.
 
-3. Download this robocode-pmj-dacruzer package
+3. Download this robocode-raw-zero package
 ----------------------------------------------
 
 For those who do not know about git, the easiest way is to click the "ZIP" button at the top of this page, which will download the latest version of this repository as a .zip file. 
@@ -50,8 +50,8 @@ A typical output from one of these commands might be:
 [INFO] ------------------------------------------------------------------------
 [INFO] 
 [INFO] --- maven-install-plugin:2.3.1:install-file (default-cli) @ standalone-pom ---
-[INFO] Installing /Users/johnson/robocode/libs/robocode.jar to /Users/johnson/.m2/repository/net/sourceforge/robocode/robocode/1.7.4.4/robocode-1.7.4.4.jar
-[INFO] Installing /var/folders/__/qq1ydtj56n3fxtccjh9k6dk80000gn/T/mvninstall1027288217865601684.pom to /Users/johnson/.m2/repository/net/sourceforge/robocode/robocode/1.7.4.4/robocode-1.7.4.4.pom
+[INFO] Installing /Users/robertward/robocode/libs/robocode.jar to /Users/robertward/.m2/repository/net/sourceforge/robocode/robocode/1.7.4.4/robocode-1.7.4.4.jar
+[INFO] Installing /var/folders/__/qq1ydtj56n3fxtccjh9k6dk80000gn/T/mvninstall1027288217865601684.pom to /Users/robertward/.m2/repository/net/sourceforge/robocode/robocode/1.7.4.4/robocode-1.7.4.4.pom
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -79,29 +79,29 @@ Here is an example of the command line used to build and test the system, along 
 [INFO] Scanning for projects...
 [INFO]                                                                         
 [INFO] ------------------------------------------------------------------------
-[INFO] Building dacruzer 1.0-SNAPSHOT
+[INFO] Building zero 1.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 [INFO] 
-[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ dacruzer ---
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ zero ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /Users/johnson/projecthosting/github/robocode-pmj-dacruzer/src/main/resources
+[INFO] skip non existing resourceDirectory /Users/robertward/projecthosting/github/robocode-pmj-zero/src/main/resources
 [INFO] 
-[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ dacruzer ---
-[INFO] Compiling 1 source file to /Users/johnson/projecthosting/github/robocode-pmj-dacruzer/target/classes
+[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ zero ---
+[INFO] Compiling 1 source file to /Users/robertward/projecthosting/github/robocode-pmj-zero/target/classes
 [INFO] 
-[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-resources) @ dacruzer ---
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-resources) @ zero ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
 [INFO] Copying 1 resource
 [INFO] 
-[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ dacruzer ---
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ zero ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /Users/johnson/projecthosting/github/robocode-pmj-dacruzer/src/test/resources
+[INFO] skip non existing resourceDirectory /Users/robertward/projecthosting/github/robocode-pmj-zero/src/test/resources
 [INFO] 
-[INFO] --- maven-compiler-plugin:2.3.2:testCompile (default-testCompile) @ dacruzer ---
-[INFO] Compiling 3 source files to /Users/johnson/projecthosting/github/robocode-pmj-dacruzer/target/test-classes
+[INFO] --- maven-compiler-plugin:2.3.2:testCompile (default-testCompile) @ zero ---
+[INFO] Compiling 3 source files to /Users/robertward/projecthosting/github/robocode-pmj-zero/target/test-classes
 [INFO] 
-[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ dacruzer ---
-[INFO] Surefire report directory: /Users/johnson/projecthosting/github/robocode-pmj-dacruzer/target/surefire-reports
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ zero ---
+[INFO] Surefire report directory: /Users/robertward/projecthosting/github/robocode-pmj-zero/target/surefire-reports
 
 -------------------------------------------------------
  T E S T S
@@ -165,11 +165,11 @@ To remove the robot from the robocode installation, invoke the clean target with
 [INFO] Scanning for projects...
 [INFO]                                                                         
 [INFO] ------------------------------------------------------------------------
-[INFO] Building dacruzer 1.0-SNAPSHOT
+[INFO] Building zero 1.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 [INFO] 
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ dacruzer ---
-[INFO] Deleting /Users/robertward/projecthosting/github/robocode-raw-dacruzer/target
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ zero ---
+[INFO] Deleting /Users/robertward/projecthosting/github/robocode-raw-zero/target
 [INFO] Deleting /Users/robertward/robocode/robots/raw (includes = [], excludes = [])
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -194,15 +194,15 @@ To run the test cases, edit the Run configuration for each test to include -Drob
 ----------------------------------------------------------
 
 Once you have completed the above steps, you are ready to use this project for your own development. To do this:
-  * Duplicate the robocode-pmj-dacruzer directory, and rename it with your own robot's name.
+  * Duplicate the robocode-pmj-zero directory, and rename it with your own robot's name.
   * Edit the POM file, and change the top lines to correspond to your own robot name. 
   * Import the project (as a Maven project) into Eclipse.
-  * In Eclipse, select the project (robocode-pmj-dacruzer), then right-click and Refactor | Rename to rename the project to your own robot name.
+  * In Eclipse, select the project (robocode-pmj-zero), then right-click and Refactor | Rename to rename the project to your own robot name.
 
 8. Quality assurance
 --------------------
 
-The 'quality-assurance' branch extends the Maven POM file with additional plugins to support invocation of Checkstyle, PMD, FindBugs, and Jacoco.
+The 'quality-assurance' branch extends the Maven POM file with additional plugins to support invocation of Checkstyle, raw, FindBugs, and Jacoco.
 
 Checkstyle
 **********
@@ -218,7 +218,7 @@ To run checkstyle by itself, invoke the checkstyle:check goal:
 [INFO] Building zero 1.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 [INFO] 
-[INFO] --- maven-checkstyle-plugin:2.9.1:check (default-cli) @ dacruzer ---
+[INFO] --- maven-checkstyle-plugin:2.9.1:check (default-cli) @ zero ---
 [INFO] Starting audit...
 Audit done.
 
@@ -236,26 +236,26 @@ Checkstyle is configured to run the checks specified at: http://ics-software-eng
 
 If there had been an error, the build would have failed.
 
-PMD
+raw
 ***
 
-To run PMD by itself, invoke the pmd:check goal:
+To run raw by itself, invoke the raw:check goal:
 
 ```
-[~/projecthosting/github/robocode-raw-zero]-> mvn pmd:check
+[~/projecthosting/github/robocode-raw-zero]-> mvn raw:check
 [INFO] Scanning for projects...
 [INFO]                                                                         
 [INFO] ------------------------------------------------------------------------
-[INFO] Building dacruzer 1.0-SNAPSHOT
+[INFO] Building zero 1.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 [INFO] 
-[INFO] >>> maven-pmd-plugin:2.7.1:check (default-cli) @ zero >>>
+[INFO] >>> maven-raw-plugin:2.7.1:check (default-cli) @ zero >>>
 [INFO] 
-[INFO] --- maven-pmd-plugin:2.7.1:pmd (pmd) @ zero ---
+[INFO] --- maven-raw-plugin:2.7.1:raw (raw) @ zero ---
 [INFO] 
-[INFO] <<< maven-pmd-plugin:2.7.1:check (default-cli) @ zero <<<
+[INFO] <<< maven-raw-plugin:2.7.1:check (default-cli) @ zero <<<
 [INFO] 
-[INFO] --- maven-pmd-plugin:2.7.1:check (default-cli) @ zero ---
+[INFO] --- maven-raw-plugin:2.7.1:check (default-cli) @ zero ---
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -267,7 +267,7 @@ To run PMD by itself, invoke the pmd:check goal:
 [~/projecthosting/github/robocode-raw-zero]-> 
 ```
 
-PMD is configured to use the rules specified at: http://ics-software-engineering.googlecode.com/svn/trunk/configfiles/pmd.rulesets.xml.
+raw is configured to use the rules specified at: http://ics-software-engineering.googlecode.com/svn/trunk/configfiles/raw.rulesets.xml.
 
 If there had been an error, the build would have failed.
 
@@ -281,7 +281,7 @@ To run FindBugs by itself, invoke the findbugs:check goal:
 [INFO] Scanning for projects...
 [INFO]                                                                         
 [INFO] ------------------------------------------------------------------------
-[INFO] Building dacruzer 1.0-SNAPSHOT
+[INFO] Building zero 1.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 [INFO] 
 [INFO] >>> findbugs-maven-plugin:2.5.2:check (default-cli) @ zero >>>
@@ -315,11 +315,11 @@ Jacoco (the code coverage tool) cannot be run independently, but only as part of
 [INFO] Scanning for projects...
 [INFO]                                                                         
 [INFO] ------------------------------------------------------------------------
-[INFO] Building dacruzer 1.0-SNAPSHOT
+[INFO] Building zero 1.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 [INFO] 
-[INFO] --- jacoco-maven-plugin:0.6.2.201302030002:prepare-agent (prepare-agent) @ dacruzer ---
-[INFO] argLine set to -javaagent:/Users/johnson/.m2/repository/org/jacoco/org.jacoco.agent/0.6.2.201302030002/org.jacoco.agent-0.6.2.201302030002-runtime.jar=destfile=/Users/johnson/projecthosting/github/robocode-pmj-dacruzer/target/jacoco.exec
+[INFO] --- jacoco-maven-plugin:0.6.2.201302030002:prepare-agent (prepare-agent) @ zero ---
+[INFO] argLine set to -javaagent:/Users/robertward/.m2/repository/org/jacoco/org.jacoco.agent/0.6.2.201302030002/org.jacoco.agent-0.6.2.201302030002-runtime.jar=destfile=/Users/robertward/projecthosting/github/robocode-pmj-zero/target/jacoco.exec
 [INFO] 
 [INFO] --- maven-checkstyle-plugin:2.9.1:check (default) @ zero ---
 [INFO] Starting audit...
@@ -328,11 +328,11 @@ Audit done.
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ zero ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /Users/johnson/projecthosting/github/robocode-raw-zero/src/main/resources
+[INFO] skip non existing resourceDirectory /Users/robertward/projecthosting/github/robocode-raw-zero/src/main/resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.0:compile (default-compile) @ zero ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 1 source file to /Users/johnson/projecthosting/github/robocode-raw-zero/target/classes
+[INFO] Compiling 1 source file to /Users/robertward/projecthosting/github/robocode-raw-zero/target/classes
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:copy-resources (copy-resources) @ zero ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
@@ -340,14 +340,14 @@ Audit done.
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ zero ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /Users/johnson/projecthosting/github/robocode-raw-zero/src/test/resources
+[INFO] skip non existing resourceDirectory /Users/robertward/projecthosting/github/robocode-raw-zero/src/test/resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.0:testCompile (default-testCompile) @ zero ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 3 source files to /Users/johnson/projecthosting/github/robocode-raw-zero/target/test-classes
+[INFO] Compiling 3 source files to /Users/robertward/projecthosting/github/robocode-raw-zero/target/test-classes
 [INFO] 
 [INFO] --- maven-surefire-plugin:2.10:test (default-test) @ zero ---
-[INFO] Surefire report directory: /Users/johnson/projecthosting/github/robocode-raw-zero/target/surefire-reports
+[INFO] Surefire report directory: /Users/robertward/projecthosting/github/robocode-raw-zero/target/surefire-reports
 
 -------------------------------------------------------
  T E S T S
@@ -371,9 +371,9 @@ Results :
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 [INFO] 
-[INFO] --- jacoco-maven-plugin:0.6.2.201302030002:report (report) @ dacruzer ---
+[INFO] --- jacoco-maven-plugin:0.6.2.201302030002:report (report) @ zero ---
 [INFO] 
-[INFO] --- maven-jar-plugin:2.3.2:jar (default-jar) @ dacruzer ---
+[INFO] --- maven-jar-plugin:2.3.2:jar (default-jar) @ zero ---
 [INFO] Building jar: /Users/robertward/projecthosting/github/robocode-raw-zero/target/zero-1.0-SNAPSHOT.jar
 [INFO] 
 [INFO] >>> findbugs-maven-plugin:2.5.2:check (default) @ zero >>>
@@ -389,13 +389,13 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Error size is 0
 [INFO] No errors/warnings found
 [INFO] 
-[INFO] >>> maven-pmd-plugin:2.7.1:check (default) @ zero >>>
+[INFO] >>> maven-raw-plugin:2.7.1:check (default) @ zero >>>
 [INFO] 
-[INFO] --- maven-pmd-plugin:2.7.1:pmd (pmd) @ zero ---
+[INFO] --- maven-raw-plugin:2.7.1:raw (raw) @ zero ---
 [INFO] 
-[INFO] <<< maven-pmd-plugin:2.7.1:check (default) @ zero <<<
+[INFO] <<< maven-raw-plugin:2.7.1:check (default) @ zero <<<
 [INFO] 
-[INFO] --- maven-pmd-plugin:2.7.1:check (default) @ zero ---
+[INFO] --- maven-raw-plugin:2.7.1:check (default) @ zero ---
 [INFO] 
 [INFO] 
 [INFO] --- jacoco-maven-plugin:0.6.2.201302030002:check (check) @ zero ---
