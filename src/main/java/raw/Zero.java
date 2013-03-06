@@ -101,7 +101,7 @@ public class Zero extends AdvancedRobot {
       position++;
       position = position < PositionsInMovment ? position : 0;
          
-      //scan in case radar didn't move;
+      //scan in case  radar didn't move;
        scan();
     }
   }
