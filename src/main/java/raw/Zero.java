@@ -1,6 +1,7 @@
 package raw;
 
 import robocode.AdvancedRobot;
+import robocode.Rules;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 
@@ -17,6 +18,11 @@ public class Zero extends AdvancedRobot {
    */
   private static final int THREESIXTY = 360;
   
+  /**
+   * Indicates that there is has more than one robot fighting.
+   */
+  private boolean multiPlayer = false;
+  
   
   /**
    * Contains utility functions for moving firing and scanning.
@@ -25,10 +31,10 @@ public class Zero extends AdvancedRobot {
    
   /**
    * Indicates where the sector enemy was last spotted.
-   * Quadrant 1 lower left Quarter
-   * Quadrant 2 upper left Quarter
-   * Quadrant 3 upper right Quarter
-   * Quadrant 4 lower right Quarter
+   * Quadrant 0 lower left Quarter
+   * Quadrant 1 upper left Quarter
+   * Quadrant 2 upper right Quarter
+   * Quadrant 3 lower right Quarter
    * Used to pick path perpendicular to Quadrant of enemy.
    */
   private int enemyQuadrant = 0;
@@ -76,14 +82,21 @@ public class Zero extends AdvancedRobot {
    */
    public void run() {
     
-    
+    if (this.getOthers() > 1) {
+      multiPlayer = true;
+    }
     setAdjustGunForRobotTurn(true);
     setAdjustRadarForGunTurn(true);
     setAdjustRadarForRobotTurn(true);
-  
-    
-    double[][][] moveList =  robotUtility.loadStandardMoveLocation(this.getBattleFieldWidth() / 2, 
+    double[][][] moveList;
+    if (multiPlayer) {
+      moveList =  robotUtility.loadMultiMoveLocation(this.getBattleFieldWidth() / 2, 
+          this.getBattleFieldHeight() / 2, movePositionOffset); 
+    }
+    else {
+      moveList =  robotUtility.loadStandardMoveLocation(this.getBattleFieldWidth() / 2, 
         this.getBattleFieldHeight() / 2, movePositionOffset); 
+    }
     
     // used to indicate which end of the diagonal to head towards 
     int position = 0;
@@ -102,7 +115,10 @@ public class Zero extends AdvancedRobot {
       position = position < PositionsInMovment ? position : 0;
          
       //scan in case  radar didn't move;
-       scan();
+      scan();
+      if (this.getOthers() < 2) {
+        multiPlayer = false;
+      } 
     }
   }
   /**
@@ -112,9 +128,8 @@ public class Zero extends AdvancedRobot {
    */
    public void onScannedRobot(final ScannedRobotEvent scanEvent) {
      
-     
+    
      this.enemyQuadrant = robotUtility.getQuadrant(this, scanEvent);
-
      double powerLevel = 0;
      lastTimeTracked = this.getTime();
      
@@ -138,11 +153,21 @@ public class Zero extends AdvancedRobot {
     setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn));
     setTurnGunRightRadians(Utils.normalRelativeAngle(gunTurn));
      
-    powerLevel = robotUtility.setPowerLevel(scanEvent,turnsInSamePlace);  
-    if (scanEvent.getDistance() < 400 || turnsInSamePlace > 5) {
+    powerLevel = robotUtility.setPowerLevel(scanEvent,turnsInSamePlace); 
+    if (multiPlayer) {
+      
+      if (this.getOthers() > 2) {
+        setFire(Rules.MAX_BULLET_POWER);
+      }
+      else {
+        if (scanEvent.getDistance() < 400 || turnsInSamePlace > 5 ) {
+          setFire(powerLevel);
+        }
+      }
+    }
+    else if (scanEvent.getDistance() < 400 || turnsInSamePlace > 5 ) {
       setFire(powerLevel);
     }
-    // set to see if target is not moving  
     lastEnemyXCoordinate = enemyX;
     lastEnemyYCoordinate = enemyY;
     
