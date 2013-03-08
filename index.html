@@ -37,12 +37,28 @@
 
 <h3>About the robot</h3>
 
-robocode-raw-zero is a Robocode robot implementing the following strategy:
+robocode-raw-zero is a Robocode robot implementing the following basic strategy:
 
-<h3> Movement:</h3> DaCruzer moves to each of the four corners of the battlefield. As each corner is reached, it spins 360 degrees. Once it completes this circuit, it remains in one location and spins around until the round is over.
+<h1>Specifics</h1>
+<h3> Movement:</h3> 
+During one on one combat  
+Zero finds the enemy robot and determines what quadrant it is in <br>
+Quadrant <br>
+0 lower left
+1 upper left
+2 upper right
+3 lower left
 
+Based this it performs three basic movements:
+runs a diagonal perpendicular to the quadrant 
+Backs away from the quadrant while moving inward
+Forward toward the quadrant moving outward
+
+If the enemy robot changes quadrants it updates its movement pattern.
+ 
+ 
 <h3> Targeting:</h3><br>
-When spinning, it is scanning for other robots.
+ Scans for other robots.
 
 <h3> Firing:</h3><br>
 Whenever it scans another robot, it immediately fires a bullet at that robot with full strength.
