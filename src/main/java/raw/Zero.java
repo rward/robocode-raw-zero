@@ -1,5 +1,6 @@
 package raw;
 
+import java.awt.Color;
 import robocode.AdvancedRobot;
 import robocode.Rules;
 import robocode.ScannedRobotEvent;
@@ -97,6 +98,8 @@ public class Zero extends AdvancedRobot {
    */
    public void run() {
     
+   
+    setColors(Color.yellow ,Color.yellow, Color.red, Color.yellow, Color.yellow);
     if (this.getOthers() > 1) {
       multiPlayer = true;
     }
