@@ -90,7 +90,57 @@ public class RobotUtility {
      
      return moveLocations;
    }
-   
+   /**
+    * 
+    * @param centerX Center of the Grid X
+    * @param centerY Center of the Grid X
+    * @param offset offset to place positions at.
+    * @return The list of all the moves.
+    */
+    public double[][][] loadMultiMoveLocation(double centerX, double centerY, double offset) {
+      
+      double quadXCenter = centerX + centerX / 2;
+      double quadYCenter = centerY / 2;
+      int X = 0;
+      int Y = 1;
+      double innerOffset = 20;
+      double[][][] moveLocations = new double[4][4][2];
+      //load move locations
+      // Quadrant 0 diagonal
+      moveLocations[0][0][X] = quadXCenter - offset;
+      moveLocations[0][0][Y] = quadYCenter - offset;
+      moveLocations[0][1][X] = quadXCenter + offset;
+      moveLocations[0][1][Y] = quadYCenter + offset;
+      moveLocations[0][2][X] = quadXCenter - innerOffset;
+      moveLocations[0][2][Y] = quadYCenter + innerOffset;
+      
+      
+      // Quadrant 1 diagonal
+      moveLocations[1][0][X] = quadXCenter - offset;
+      moveLocations[1][0][Y] = quadYCenter - offset;
+      moveLocations[1][1][X] = quadXCenter + offset;
+      moveLocations[1][1][Y] = quadYCenter + offset;
+      moveLocations[1][2][X] = quadXCenter - innerOffset;
+      moveLocations[1][2][Y] = quadYCenter + innerOffset;
+      
+      // Quadrant 2 diagonal
+      moveLocations[2][0][X] = quadXCenter - offset;
+      moveLocations[2][0][Y] = quadYCenter - offset;
+      moveLocations[2][1][X] = quadXCenter + offset;
+      moveLocations[2][1][Y] = quadYCenter + offset;
+      moveLocations[2][2][X] = quadXCenter - innerOffset;
+      moveLocations[2][2][Y] = quadYCenter + innerOffset;
+      
+      // Quadrant 3 diagonal
+      moveLocations[3][0][X] = quadXCenter - offset;
+      moveLocations[3][0][Y] = quadYCenter - offset;
+      moveLocations[3][1][X] = quadXCenter + offset;
+      moveLocations[3][1][Y] = quadYCenter + offset;
+      moveLocations[3][2][X] = quadXCenter - innerOffset;
+      moveLocations[3][2][Y] = quadYCenter + innerOffset;
+      
+      return moveLocations;
+    }
 
    
    
