@@ -22,6 +22,15 @@ public class Zero extends AdvancedRobot {
    * Indicates that there is has more than one robot fighting.
    */
   private boolean multiPlayer = false;
+  /**
+   * Name of chosen enemy.
+   */
+  private String chosenEnemy = "";
+  /**
+   * Number of turn we have not seen chosen enemy.
+   */
+  private int noContactCount = 0;
+  
   
   
   /**
@@ -65,6 +74,12 @@ public class Zero extends AdvancedRobot {
   private int movePositionOffset = 120;
   
   /**
+   * Width of our offset for our diagonal.
+   */
+  private int moveMultiPositionOffset = 60;
+  
+  
+  /**
    * Minimum distance to move.
    */
   private int minimumMovedistance = 30;
@@ -91,7 +106,7 @@ public class Zero extends AdvancedRobot {
     double[][][] moveList;
     if (multiPlayer) {
       moveList =  robotUtility.loadMultiMoveLocation(this.getBattleFieldWidth() / 2, 
-          this.getBattleFieldHeight() / 2, movePositionOffset); 
+          this.getBattleFieldHeight() / 2, moveMultiPositionOffset); 
     }
     else {
       moveList =  robotUtility.loadStandardMoveLocation(this.getBattleFieldWidth() / 2, 
@@ -107,7 +122,10 @@ public class Zero extends AdvancedRobot {
         
         setTurnRadarRight(THREESIXTY);
       }
-       
+      noContactCount++; 
+      if (noContactCount > 5) {
+        chosenEnemy = "";
+      } 
       robotUtility.goToward(this, 
           moveList[enemyQuadrant][position][0], 
           moveList[enemyQuadrant][position][1], minimumMovedistance );
@@ -116,8 +134,11 @@ public class Zero extends AdvancedRobot {
          
       //scan in case  radar didn't move;
       scan();
-      if (this.getOthers() < 2) {
+      if (multiPlayer && this.getOthers() == 1) {
         multiPlayer = false;
+        //load single combat moves
+        moveList =  robotUtility.loadStandardMoveLocation(this.getBattleFieldWidth() / 2, 
+            this.getBattleFieldHeight() / 2, movePositionOffset); 
       } 
     }
   }
@@ -126,51 +147,84 @@ public class Zero extends AdvancedRobot {
    * Keeps gun pointed at chosen enemy.
    * @param scanEvent Scanned event.
    */
-   public void onScannedRobot(final ScannedRobotEvent scanEvent) {
-     
+  public void onScannedRobot(final ScannedRobotEvent scanEvent) {
     
-     this.enemyQuadrant = robotUtility.getQuadrant(this, scanEvent);
-     double powerLevel = 0;
-     lastTimeTracked = this.getTime();
-     
-     double absoluteBearing = this.getHeadingRadians() + scanEvent.getBearingRadians();
-     double gunTurn = absoluteBearing - getGunHeadingRadians();
-     double radarTurn = absoluteBearing - getRadarHeadingRadians();
-       
-     double enemyX = this.getX() + scanEvent.getDistance() * Math.sin(absoluteBearing);
-     double enemyY = this.getY() + scanEvent.getDistance() * Math.cos(absoluteBearing);
-     
-     if (Utils.isNear(lastEnemyXCoordinate, enemyX) 
-         && Utils.isNear(lastEnemyYCoordinate, enemyY) ) {
-       turnsInSamePlace++;
-     }
-     else {
-       
-       turnsInSamePlace = 0;
-     }
-        
-    gunTurn =  robotUtility.linearTargetingHeading(this, scanEvent); 
-    setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn));
-    setTurnGunRightRadians(Utils.normalRelativeAngle(gunTurn));
-     
-    powerLevel = robotUtility.setPowerLevel(scanEvent,turnsInSamePlace); 
-    if (multiPlayer) {
+    
+    this.enemyQuadrant = robotUtility.getQuadrant(this, scanEvent);
+    double powerLevel = 0;
+    lastTimeTracked = this.getTime();
+    
+    double absoluteBearing = this.getHeadingRadians() + scanEvent.getBearingRadians();
+    double gunTurn = absoluteBearing - getGunHeadingRadians();
+    double radarTurn = absoluteBearing - getRadarHeadingRadians();
       
-      if (this.getOthers() > 2) {
-        setFire(Rules.MAX_BULLET_POWER);
-      }
-      else {
-        if (scanEvent.getDistance() < 400 || turnsInSamePlace > 5 ) {
-          setFire(powerLevel);
-        }
-      }
-    }
-    else if (scanEvent.getDistance() < 400 || turnsInSamePlace > 5 ) {
-      setFire(powerLevel);
-    }
-    lastEnemyXCoordinate = enemyX;
-    lastEnemyYCoordinate = enemyY;
+    double enemyX = this.getX() + scanEvent.getDistance() * Math.sin(absoluteBearing);
+    double enemyY = this.getY() + scanEvent.getDistance() * Math.cos(absoluteBearing);
     
-  }
+    if (Utils.isNear(lastEnemyXCoordinate, enemyX) 
+        && Utils.isNear(lastEnemyYCoordinate, enemyY) ) {
+      turnsInSamePlace++;
+    }
+    else {
+      
+      turnsInSamePlace = 0;
+    }
+       
+   gunTurn =  robotUtility.linearTargetingHeading(this, scanEvent); 
+   boolean tracking = false;
+ 
+   if (multiPlayer) {
+     
+     //are we currently following a robot?
+     if (chosenEnemy.length() == 0 && scanEvent.getDistance() < 300 ) {
+       //set this as the robot to attack
+       chosenEnemy = scanEvent.getName();
+       tracking  = true;
+       
+       setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn));
+       setTurnGunRightRadians(Utils.normalRelativeAngle(gunTurn));
+      
+     }
+     else if (chosenEnemy.equals(scanEvent.getName()) && scanEvent.getDistance() < 350 ) {
+       noContactCount = 0; 
+       //keep tracking this robot
+       tracking  = true;
+       
+       setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn));
+       setTurnGunRightRadians(Utils.normalRelativeAngle(gunTurn));
+     }
+     else if (chosenEnemy.equals(scanEvent.getName()) && scanEvent.getDistance() >= 350 ) {
+       //stop tracking this robot
+       chosenEnemy = "";
+       noContactCount = 0; 
+       tracking  = false;
+       setTurnRadarRight(THREESIXTY);
+     }
    
+   }
+   if (!multiPlayer || tracking ) {
+     setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn));
+     setTurnGunRightRadians(Utils.normalRelativeAngle(gunTurn));
+     powerLevel = robotUtility.setPowerLevel(scanEvent,turnsInSamePlace); 
+     if (this.getEnergy() > 10) {
+       if (multiPlayer) {
+       
+         if (this.getOthers() > 2) {
+           setFire(Rules.MAX_BULLET_POWER);
+         }
+         else {
+           if (scanEvent.getDistance() < 400 || turnsInSamePlace > 5 ) {
+             setFire(powerLevel);
+           }
+         }
+       }
+       else if (scanEvent.getDistance() < 400 || turnsInSamePlace > 5 ) {
+         setFire(powerLevel);
+       }
+     }
+     lastEnemyXCoordinate = enemyX;
+     lastEnemyYCoordinate = enemyY;
+   }
+ }
+  
 }
