@@ -39,7 +39,7 @@ public class TestBattleOutcomes extends RobotTestBed {
    * @return the name of the robot to fight
    */
   public String getEnemyRobot() {
-    return "raw.Strafer";
+    return "sample.Crazy";
   }
   
   /**
