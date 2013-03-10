@@ -65,15 +65,15 @@ robocode-raw-zero is a Robocode robot implementing the following basic strategy 
 During one on one combat  
 Zero finds the enemy robot and determines what quadrant it is in <br>
 Quadrant <br>
-0 lower left
-1 upper left
-2 upper right
-3 lower left
+0 lower left <br>
+1 upper left <br>
+2 upper right <br>
+3 lower left <br>
 
-Based this it performs three basic movements:
-Runs a diagonal perpendicular to the quadrant 
-Backs away from the quadrant while moving inward
-Forward toward the quadrant moving outward
+Based this it performs three basic movements: <br>
+Runs a diagonal perpendicular to the quadrant  <br>
+Backs away from the quadrant while moving inward <br>
+Forward toward the quadrant moving outward <br>
 
 If the enemy robot changes quadrants it updates its movement pattern.
  
@@ -82,7 +82,8 @@ If the enemy robot changes quadrants it updates its movement pattern.
 Scans and targets a specific robot. Use a radar lock to keep track of this robot.
 
 <h3> Firing:</h3><br>
-Whenever it scans a robot, it will fire if that robot is in range.
+Whenever it scans a robot, it will fire if that robot is in range. <br>
+Power level is inversely proportional to distance from target. <br>
 
 <h3> Vulnerabilities:</h3><br>
  There are many opportunities for improvement of this robot. It does not attempt to avoid other robots and does nothing when colliding with another robot. It does not save any information about other robots between rounds in order to improve its strategy.
