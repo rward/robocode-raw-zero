@@ -73,7 +73,7 @@ public class TestBattleMultiOutcomes extends RobotTestBed {
       }
   
     }
-               
+                
     String robotName = testRobotResults.getTeamLeaderName();
     
     

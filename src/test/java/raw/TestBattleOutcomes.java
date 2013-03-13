@@ -65,7 +65,7 @@ public class TestBattleOutcomes extends RobotTestBed {
     
     BattleResults testRobotResults ;
     BattleResults enemyRobotResults ;
-    if ( battleResults[0].getTeamLeaderName().equals(this.getTestRobot() + "*") ) {
+    if ( battleResults[0].getTeamLeaderName().contains(this.getTestRobot())) {
        testRobotResults = battleResults[0];
        enemyRobotResults = battleResults[1];
     }
