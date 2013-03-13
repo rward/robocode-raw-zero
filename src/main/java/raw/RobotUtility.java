@@ -6,6 +6,7 @@ import robocode.Robot;
 import robocode.Rules;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
+
 /**
  *
  * @author Robert Ward
@@ -18,12 +19,14 @@ public class RobotUtility {
   * 
   * @param enemy robot to fire at.
   * @param turnsInSamePlace home many turns has this robot stood still.
+  * @param numberofEnemy number of robots fighting.
   * @return the power level to fire at.
   */
-  public double setPowerLevel(final ScannedRobotEvent enemy, final int turnsInSamePlace) {
+  public double getPowerLevel(final ScannedRobotEvent enemy, final int turnsInSamePlace, 
+      int numberofEnemy) {
     double powerLevel = 0;
     //Stationary TARGET!!! or Close TARGET Max fire power!!!
-    if (enemy.getDistance() < 150 || turnsInSamePlace > 20 ) {
+    if (enemy.getDistance() < 150 || turnsInSamePlace > 20 || numberofEnemy > 2 ) {
       powerLevel =  Rules.MAX_BULLET_POWER;
       
     }
@@ -88,8 +91,27 @@ public class RobotUtility {
      moveLocations[3][2][X] = centerX - innerOffset;
      moveLocations[3][2][Y] = centerY + innerOffset;
      
+     // Quadrant 1 diagonal
+     moveLocations[1][0][X] = centerX - offset;
+     moveLocations[1][0][Y] = centerY - offset;
+     moveLocations[1][1][X] = centerX + offset;
+     moveLocations[1][1][Y] = centerY - offset;
+     moveLocations[1][2][X] = centerX + innerOffset;
+     moveLocations[1][2][Y] = centerY + innerOffset;
+     
+     // Quadrant 3 diagonal
+     moveLocations[3][0][X] = centerX - offset;
+     moveLocations[3][0][Y] = centerY - offset;
+     moveLocations[3][1][X] = centerX - offset;
+     moveLocations[3][1][Y] = centerY + offset;
+     moveLocations[3][2][X] = centerX + innerOffset;
+     moveLocations[3][2][Y] = centerY + innerOffset;
+     
+     
      return moveLocations;
    }
+   
+   
    /**
     * 
     * @param centerX Center of the Grid X
@@ -144,60 +166,7 @@ public class RobotUtility {
 
    
    
-//   /**
-//    * Currently unused potential new movement pattern.
-//    * @param centerX Center of the Grid X
-//    * @param centerY Center of the Grid X
-//    * @param offset offset to place positions at.
-//    * @return The list of all the moves.
-//    */
-//    public double[][][] loadStandardMoveLocation2(double centerX, double centerY, double offset) {
-//       
-//      int X = 0;
-//      int Y = 1;
-//      double[][][] moveLocations = new double[4][4][2];
-//      //load move locations
-//      // Quadrant 0 diagonal
-//      moveLocations[0][0][X] = centerX - offset;
-//      moveLocations[0][0][Y] = centerY + offset;
-//      moveLocations[0][1][X] = centerX - offset + 20;
-//      moveLocations[0][1][Y] = centerY + offset + 20;
-//      moveLocations[0][2][X] = centerX - offset + 30;
-//      moveLocations[0][2][Y] = centerY + offset + 10;
-//      moveLocations[0][3][X] = centerX + offset;
-//      moveLocations[0][3][Y] = centerY - offset;
-//      // Quadrant 1 diagonal
-//      moveLocations[1][0][X] = centerX - offset;
-//      moveLocations[1][0][Y] = centerY - offset;
-//      moveLocations[1][1][X] = centerX - offset + 20;
-//      moveLocations[1][1][Y] = centerY - offset - 20;
-//      moveLocations[1][2][X] = centerX - offset + 30;
-//      moveLocations[1][2][Y] = centerY - offset - 10;
-//      moveLocations[1][3][X] = centerX + offset;
-//      moveLocations[1][3][Y] = centerY + offset;
-//      
-//      
-//      // Quadrant 2 diagonal
-//      moveLocations[2][0][X] = centerX - offset;
-//      moveLocations[2][0][Y] = centerY + offset;
-//      moveLocations[2][1][X] = centerX - offset + 20;
-//      moveLocations[2][1][Y] = centerY + offset + 20;
-//      moveLocations[2][2][X] = centerX - offset + 30;
-//      moveLocations[2][2][Y] = centerY + offset + 10;
-//      moveLocations[2][3][X] = centerX + offset;
-//      moveLocations[2][3][Y] = centerY - offset;
-//      // Quadrant 3 diagonal
-//      moveLocations[3][0][X] = centerX - offset;
-//      moveLocations[3][0][Y] = centerY - offset;
-//      moveLocations[3][1][X] = centerX - offset + 20;
-//      moveLocations[3][1][Y] = centerY - offset - 20;
-//      moveLocations[3][2][X] = centerX - offset + 30;
-//      moveLocations[3][2][Y] = centerY - offset - 10;
-//      moveLocations[3][3][X] = centerX + offset;
-//      moveLocations[3][3][Y] = centerY + offset;
-//      return moveLocations;
-//    }
- 
+
   /**
    * Sets the direction of motion for the robot argument to the newHeading.
    * @param robot to set heading for.
@@ -250,18 +219,17 @@ public class RobotUtility {
         * enemy.getDistance();
     final double midXCoordinate =  robot.getBattleFieldWidth() / 2;
     final double midYCoordinate =  robot.getBattleFieldHeight() / 2;
-    
-    
+        
     int quadrant = 0;
-    if (targetX > midXCoordinate && targetY < midYCoordinate) {
-      quadrant = 3;
+    if (targetX > midXCoordinate) {
+      if (targetY < midYCoordinate) {
+        quadrant = 3;
+      }
+      else {
+        quadrant = 2;
+      }
     }
-    
-    if (targetX > midXCoordinate && targetY > midYCoordinate) {
-      quadrant = 2;
-    }
-    
-    if (targetX < midXCoordinate && targetY > midYCoordinate) {
+    else if (targetY > midYCoordinate) {
       quadrant = 1;
     }
     return quadrant;
@@ -310,9 +278,11 @@ public class RobotUtility {
   public double avoidNearWall(double coordinate, double fieldSize, double bufferFromWall) {
     
     double offWallCoordinate = coordinate;
+    // we are inside the buffer region decrease the coordinate
     if (coordinate > (fieldSize - bufferFromWall)) {
       offWallCoordinate = fieldSize - bufferFromWall;
     }
+    //if we are lower that the buffer increase to the buffer
     else if (coordinate < bufferFromWall) {
       offWallCoordinate = bufferFromWall;
     }
@@ -332,17 +302,11 @@ public class RobotUtility {
       double minMove) {
     // code prevents moving into a wall 
     double xCoordinate = avoidNearWall(xCoord, robot.getBattleFieldWidth() , 40);
-    double yCoordinate = avoidNearWall(yCoord, robot.getBattleFieldWidth() , 40);
+    double yCoordinate = avoidNearWall(yCoord, robot.getBattleFieldHeight() , 40);
        
     double distance = Point2D.distance(robot.getX(), robot.getY(), xCoordinate, yCoordinate);
-//    // potential random size move    
-//    double distanceToMove;
-//    if (distance < minMove ) {
-//      distanceToMove = distance;
-//    } 
-//    else {
-//     distanceToMove = (distance - minMove) * Utils.getRandom().nextDouble() + minMove  ;
-//    }
+    
+   
     double newHeading = heading(robot.getX() , robot.getY() , xCoordinate,
         yCoordinate);
     setHeading(robot, newHeading, distance);
@@ -399,26 +363,68 @@ public class RobotUtility {
    }
   
   
- /**
-  * Target ahead of a moving target.
-  * @param robot 
-  * @param scannedRobot robot that is being targeted.
-  * @return the angle to turn the gun in radians.
-  */
- public double linearTargetingHeading(AdvancedRobot robot,final ScannedRobotEvent scannedRobot )
- {
-   double absoluteBearing = robot.getHeadingRadians() + scannedRobot.getBearingRadians();
-   
-   
-   double adjust = .80 - (Math.floor(scannedRobot.getDistance() / 20)) / 100.0 ;
-   
-   return Utils.normalRelativeAngle(absoluteBearing - 
-       robot.getGunHeadingRadians() + (scannedRobot.getVelocity() * adjust
-           * Math.sin(scannedRobot.getHeadingRadians() - absoluteBearing) / 13.0));
-      
+
+/**
+ *  Increases the value of currentInSamePlace if the coordinates are close to last ones.
+ *  This lets us know if a robot stopped moving.
+ * @param lastX last x coordinate the robot was at.
+ * @param lastY last x coordinate the robot was at. 
+ * @param currentX x coordinate of the robot. 
+ * @param currentY y coordinate of the robot. 
+ * @param currentInSamePlace times robot has been in the same place
+ * @return if this is at the same location.
+ */
+public int stoppedCount(double lastX, double lastY, double currentX , double currentY , 
+    int currentInSamePlace) {
+  
+  int turnsInSamePlace = currentInSamePlace;
+  
+ if (Math.abs(lastX - currentX ) < 1 && Math.abs(lastY - currentY ) < 1 ) {
+    turnsInSamePlace++;
   }
- 
- 
+  else {
+    turnsInSamePlace = 0;
+  }
+  return turnsInSamePlace;
+  
 }
 
+ /**
+  * Tries to target redshift.
+  * @param robot the robot to change gun position of.
+  * @param red the evil redshift
+  * @param bulletPower power level of justice.
+  */
+  public void firePowerAdjust(AdvancedRobot robot,final ScannedRobotEvent red,
+      double bulletPower) {
+    //based on code at:
+    //http://robowiki.net/wiki/Linear_Targeting (trivial) exact non-iterative solution
+    double headOnBearing = robot.getHeadingRadians() + red.getBearingRadians();
+    double linearBearing = headOnBearing + Math.asin(red.getVelocity() /
+        Rules.getBulletSpeed(bulletPower) * Math.sin(red.getHeadingRadians() - headOnBearing));
+    robot.setTurnGunRightRadians(Utils.normalRelativeAngle(linearBearing - 
+        robot.getGunHeadingRadians()));
+    robot.setFire(bulletPower);
+  }
 
+  /**
+   * Target ahead of a moving target.
+   * @param robot 
+   * @param scannedRobot robot that is being targeted.
+   * @return the angle to turn the gun in radians.
+   */
+  public double linearTargetingTurn(AdvancedRobot robot,final ScannedRobotEvent scannedRobot )
+  {
+    double absoluteBearing = robot.getHeadingRadians() + scannedRobot.getBearingRadians();
+    
+    
+    double adjust = .80 - (Math.floor(scannedRobot.getDistance() / 20)) / 100.0 ;
+    
+    return Utils.normalRelativeAngle(absoluteBearing - 
+        robot.getGunHeadingRadians() + (scannedRobot.getVelocity() * adjust
+            * Math.sin(scannedRobot.getHeadingRadians() - absoluteBearing) / 13.0));
+       
+   }
+
+
+}

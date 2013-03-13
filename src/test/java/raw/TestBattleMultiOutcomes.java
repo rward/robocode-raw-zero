@@ -39,7 +39,7 @@ public class TestBattleMultiOutcomes extends RobotTestBed {
    * @return the name of the robot to fight
    */
   public String getEnemyRobot() {
-    return "sample.Crazy,sample.Fire,sample.MyFirstJuniorRobot";
+    return "sample.Crazy,sample.Fire,sample.MyFirstJuniorRobot,sample.Crazy";
   }
   
   /**
@@ -79,7 +79,7 @@ public class TestBattleMultiOutcomes extends RobotTestBed {
     
     System.out.println("Wins for " + robotName + " versus many " + testRobotResults.getFirsts());
     // Check to make sure test robot won over 30% of the rounds.
-    assertTrue("Wins " + testRobotResults.getFirsts() , testRobotResults.getFirsts() > 30  );
+    assertTrue("Wins " + testRobotResults.getFirsts() , testRobotResults.getFirsts() > 70  );
   }
   
   /**
