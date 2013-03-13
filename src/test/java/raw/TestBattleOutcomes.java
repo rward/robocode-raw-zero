@@ -51,7 +51,7 @@ public class TestBattleOutcomes extends RobotTestBed {
     return "raw.Zero";
   }
   
-  
+   
   
   /**
    * The actual test, which asserts that the test robot has won over 90% of the rounds.
